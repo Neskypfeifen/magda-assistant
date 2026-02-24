@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magda - Nesky Assistant</title>
     
-    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=9">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=9">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=9.1">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=9.1">
     <meta name="theme-color" content="#8B4513">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -18,66 +18,67 @@
         body.night-mode {
             --bg-color: #1A1A1A; --card-bg: #262626; --text-main: #E0E0E0; --text-muted: #A0A0A0; --accent-color: #D2B48C;
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: 0.5s; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: 0.5s; }
         
-        .app-container { width: 100%; max-width: 450px; min-height: 100vh; padding: 30px 20px; box-sizing: border-box; display: none; padding-bottom: 100px; }
+        .app-container { width: 100%; max-width: 450px; min-height: 100vh; padding: 30px 20px 120px 20px; box-sizing: border-box; display: none; }
         .app-visible { display: block; }
         
         header { margin-bottom: 25px; }
         h1 { font-size: 26px; font-weight: 600; margin: 0; }
-        .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; }
+        .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
 
-        /* PRZYCISK GŁOSOWY */
         .voice-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
+            position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px;
             background: var(--accent-color); border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            cursor: pointer; z-index: 1000; border: none; transition: transform 0.2s;
+            align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.4);
+            cursor: pointer; z-index: 1000; border: none; transition: transform 0.2s, background 0.3s;
         }
         .voice-btn:active { transform: scale(0.9); }
         .voice-btn.listening { animation: pulse-red 1.5s infinite; background: #d32f2f; }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(211, 47, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); } }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); } 70% { box-shadow: 0 0 0 25px rgba(211, 47, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); } }
 
-        .search-box { margin: 20px 0; position: relative; }
-        .search-box input { width: 100%; padding: 14px 20px 14px 45px; border-radius: 30px; border: 1px solid #eee; background: var(--card-bg); color: var(--text-main); outline: none; box-shadow: var(--shadow); }
-        .search-box::before { content: '🔍'; position: absolute; left: 18px; top: 14px; opacity: 0.5; }
+        .search-box { margin: 25px 0; position: relative; }
+        .search-box input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 35px; border: 1px solid rgba(0,0,0,0.1); background: var(--card-bg); color: var(--text-main); outline: none; box-shadow: var(--shadow); font-size: 16px; }
+        .search-box::before { content: '🔍'; position: absolute; left: 20px; top: 16px; font-size: 18px; opacity: 0.6; }
 
-        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
-        .news-item { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
-        .news-tag { font-size: 9px; font-weight: 600; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .news-headline { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text-main); text-decoration: none; display: block; }
+        .card { background: var(--card-bg); border-radius: 22px; padding: 22px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
         
-        .joke-card { background: rgba(139, 69, 19, 0.05); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 15px; font-size: 13px; font-style: italic; margin-top: 20px; text-align: center; }
+        .news-section { display: grid; gap: 12px; margin-top: 15px; }
+        .news-item { background: var(--card-bg); border-radius: 18px; padding: 18px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); text-decoration: none; color: inherit; }
+        .news-tag { font-size: 10px; font-weight: 700; color: var(--accent-color); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+        .news-headline { font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--text-main); }
         
-        #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 2000; display: flex; flex-direction: column; align-items: center; padding: 50px 20px; }
-        .btn-start { background: #8B4513; color: white; border: none; padding: 15px; border-radius: 30px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 20px; }
-        input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: 1px solid #ddd; background: #fff; }
+        .joke-card { background: rgba(139, 69, 19, 0.04); border: 1px dashed var(--accent-color); padding: 20px; border-radius: 20px; font-size: 14px; font-style: italic; margin-top: 25px; text-align: center; line-height: 1.6; }
+        
+        #voice-status { position: fixed; bottom: 110px; right: 25px; background: rgba(0,0,0,0.85); color: white; padding: 10px 18px; border-radius: 15px; font-size: 13px; display: none; z-index: 1000; backdrop-filter: blur(5px); }
 
-        #voice-status { position: fixed; bottom: 100px; right: 30px; background: rgba(0,0,0,0.8); color: white; padding: 8px 15px; border-radius: 10px; font-size: 12px; display: none; z-index: 1000; }
+        #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 2000; display: flex; flex-direction: column; align-items: center; padding: 60px 25px; box-sizing: border-box; }
+        .btn-start { background: #8B4513; color: white; border: none; padding: 18px; border-radius: 35px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 25px; font-size: 16px; }
+        .onboarding-input { width: 100%; padding: 14px; margin-top: 12px; border-radius: 12px; border: 1px solid #ddd; background: #fff; font-size: 16px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <div id="voice-status">Słucham...</div>
 <button class="voice-btn" id="voice-trigger" onclick="startVoiceRecognition()">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
 </button>
 
 <div id="onboarding-overlay">
     <div style="max-width: 400px; width: 100%; text-align: center;">
-        <img src="https://img.icons8.com/ios-filled/100/8B4513/fountain-pen-tip.png" alt="Logo" style="margin-bottom: 20px;">
-        <h2 style="font-family: 'Playfair Display', serif;">Magda Assistant v9.0</h2>
-        <p style="font-size: 12px; color: #666;">Teraz z obsługą głosową</p>
-        <input type="text" id="user-name" placeholder="Twoje Imię">
-        <input type="text" id="user-home" placeholder="Twoja Miejscowość">
-        <button class="btn-start" onclick="saveAndStart()">Zatwierdź i Wejdź</button>
+        <img src="https://img.icons8.com/ios-filled/100/8B4513/fountain-pen-tip.png" alt="Logo" style="margin-bottom: 25px;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 28px;">Magda v9.1</h2>
+        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Korekta wizualna & Głos</p>
+        <input type="text" id="user-name" class="onboarding-input" placeholder="Twoje Imię">
+        <input type="text" id="user-home" class="onboarding-input" placeholder="Miejscowość (np. Geroldshausen)">
+        <button class="btn-start" onclick="saveAndStart()">Zapisz i Wejdź</button>
     </div>
 </div>
 
 <div id="main-app" class="app-container">
     <header>
         <h1 id="greeting-text">Witaj</h1>
-        <p id="magda-intro" style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-muted);"></p>
+        <p id="magda-intro" class="date-summary"></p>
     </header>
 
     <div class="search-box">
@@ -88,14 +89,14 @@
 
     <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">SYSTEM GŁOSOWY</span>
-            <span id="mic-indicator" style="color: var(--accent-color); font-size: 10px; font-weight: 600;">GOTOWY</span>
+            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.8px; color: var(--text-muted);">ASYSTENT GŁOSOWY</span>
+            <span id="mic-indicator" style="color: var(--accent-color); font-size: 11px; font-weight: 700;">GOTOWY</span>
         </div>
-        <div style="font-size: 13px;">Spróbuj powiedzieć: <b>"Magda, powiedz dowcip"</b> lub <b>"Włącz tryb nocny"</b>.</div>
+        <div style="font-size: 14px; line-height: 1.5;">Powiedz: <b>"Magda, powiedz dowcip"</b> lub <b>"Szukaj [coś]"</b>.</div>
     </div>
 
-    <span style="font-size: 16px; font-weight: 600;">Kurier i Pasje</span>
-    <div id="news-feed"></div>
+    <h2 style="font-size: 18px; font-weight: 600; margin: 30px 0 10px 0;">Kurier i Pasje</h2>
+    <div id="news-feed" class="news-section"></div>
 
     <div id="daily-joke" class="joke-card"></div>
 </div>
@@ -118,11 +119,10 @@
         updateData();
     }
 
-    // --- LOGIKA GŁOSOWA ---
     function startVoiceRecognition() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
-            alert("Twoja przeglądarka nie obsługuje rozpoznawania mowy.");
+            alert("Twoja przeglądarka nie wspiera mowy.");
             return;
         }
 
@@ -134,6 +134,7 @@
         recognition.onstart = () => {
             btn.classList.add('listening');
             status.style.display = 'block';
+            status.innerText = "Słucham...";
         };
 
         recognition.onresult = (event) => {
@@ -144,7 +145,7 @@
 
         recognition.onend = () => {
             btn.classList.remove('listening');
-            setTimeout(() => { status.style.display = 'none'; }, 2000);
+            setTimeout(() => { status.style.display = 'none'; }, 2500);
         };
 
         recognition.start();
@@ -152,18 +153,14 @@
 
     function processCommand(cmd) {
         if (cmd.includes("dowcip") || cmd.includes("żart")) {
-            updateData(); // losuje nowy dowcip
+            updateData(); 
         } else if (cmd.includes("nocny")) {
             document.body.classList.add('night-mode');
         } else if (cmd.includes("dzienny")) {
             document.body.classList.remove('night-mode');
         } else if (cmd.includes("szukaj")) {
-            const query = cmd.replace("szukaj", "").trim();
-            if(query) {
-                window.open(`https://www.google.com/search?q=${query}`, '_blank');
-            }
-        } else if (cmd.includes("magda")) {
-            alert("Słucham Cię, Tomku!");
+            const query = cmd.split("szukaj")[1].trim();
+            if(query) window.open(`https://www.google.com/search?q=${query}`, '_blank');
         }
     }
 
@@ -175,19 +172,19 @@
 
         if (hour >= 20 || hour < 6) document.body.classList.add('night-mode');
         document.getElementById('greeting-text').innerText = `${hour < 18 ? "Dzień dobry" : "Dobry wieczór"}, ${name}`;
-        document.getElementById('magda-intro').innerText = `W ${city} czas płynie spokojnie. Magda czuwa.`;
+        document.getElementById('magda-intro').innerText = `W ${city} czas płynie spokojnie. Magda czuwa nad Twoim planem.`;
 
         const news = [
-            { tag: "FC Bayern", title: "Aktualności z Sabener Straße.", link: "https://www.kicker.de/bayern-muenchen/info" },
-            { tag: "Heise IT", title: "Inżynieria i AI w przemyśle.", link: "https://www.heise.de/" },
-            { tag: "Auto-Sport", title: "Testy drogowe z Monachium.", link: "https://www.auto-motor-und-sport.de/" }
+            { tag: "FC Bayern", title: "Bayern przygotowuje się do kolejnego starcia w Bundeslidze.", link: "https://www.kicker.de/bayern-muenchen/info" },
+            { tag: "Heise IT", title: "Przełom w technologii kwantowej: co to oznacza dla przemysłu?", link: "https://www.heise.de/" },
+            { tag: "Auto-Sport", title: "Testujemy najnowszą limuzynę z Bawarii - czy to król szos?", link: "https://www.auto-motor-und-sport.de/" }
         ];
 
         document.getElementById('news-feed').innerHTML = news.map(n => `
-            <div class="news-item">
+            <a href="${n.link}" target="_blank" class="news-item">
                 <span class="news-tag">${n.tag}</span>
-                <a href="${n.link}" target="_blank" class="news-headline">${n.title}</a>
-            </div>
+                <span class="news-headline">${n.title}</span>
+            </a>
         `).join('');
 
         const jokes = [
