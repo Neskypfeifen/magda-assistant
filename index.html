@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magda - Nesky Assistant</title>
     
-    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=2">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=2">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?refresh=nesky2026v84">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?refresh=nesky2026v84">
+    <meta name="theme-color" content="#8B4513">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
@@ -26,9 +27,7 @@
         .search-box { margin: 20px 0; position: relative; }
         .search-box input { width: 100%; padding: 14px 20px 14px 45px; border-radius: 30px; border: 1px solid #eee; background: var(--card-bg); color: var(--text-main); outline: none; box-shadow: var(--shadow); }
         .search-box::before { content: '🔍'; position: absolute; left: 18px; top: 14px; opacity: 0.5; }
-        .email-card { background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
-        .email-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .email-badge { background: var(--accent-color); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
         .news-item { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
         .news-tag { font-size: 9px; font-weight: 600; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
         .news-headline { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text-main); text-decoration: none; display: block; }
@@ -43,10 +42,11 @@
 <div id="onboarding-overlay">
     <div style="max-width: 400px; width: 100%; text-align: center;">
         <img src="https://img.icons8.com/ios-filled/100/8B4513/fountain-pen-tip.png" alt="Logo" style="margin-bottom: 20px;">
-        <h2 style="font-family: 'Playfair Display', serif;">System Magda v8.3</h2>
+        <h2 style="font-family: 'Playfair Display', serif;">System Magda v8.4</h2>
+        <p style="font-size: 12px; color: #666;">Aktualizacja tożsamości wizualnej</p>
         <input type="text" id="user-name" placeholder="Twoje Imię">
         <input type="text" id="user-home" placeholder="Twoja Miejscowość">
-        <button class="btn-start" onclick="saveAndStart()">Zaktualizuj i Wejdź</button>
+        <button class="btn-start" onclick="saveAndStart()">Zatwierdź i Wejdź</button>
     </div>
 </div>
 
@@ -62,12 +62,12 @@
         </form>
     </div>
 
-    <div class="email-card">
-        <div class="email-header">
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">NESKY MAIL: SYSTEM MAGDA</span>
-            <span class="email-badge">GMAIL SYNC</span>
+            <span style="background: var(--accent-color); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px;">SYNC OK</span>
         </div>
-        <div id="email-content" style="font-size: 13px;">Wczytywanie ostatnich wiadomości...</div>
+        <div id="email-content" style="font-size: 13px;"><b>Ostatnia wiadomość: test</b><br><small>Pobrano przez Gemini • 20:42</small></div>
     </div>
 
     <span style="font-size: 16px; font-weight: 600;">Kurier Niemiecki</span>
@@ -106,8 +106,7 @@
 
         if (hour >= 20 || hour < 6) document.body.classList.add('night-mode');
         document.getElementById('greeting-text').innerText = `${hour < 18 ? "Dzień dobry" : "Dobry wieczór"}, ${name}`;
-        document.getElementById('magda-intro').innerText = `W ${city} noc zapada powoli. Magda czuwa nad planami.`;
-        document.getElementById('email-content').innerHTML = `<b>Ostatnia wiadomość: test</b><br><small>Pobrano przez Gemini • 20:42</small>`;
+        document.getElementById('magda-intro').innerText = `W ${city} czas płynie spokojnie. Magda czuwa nad planami.`;
 
         const news = [
             { tag: "FC Bayern", title: "Aktualności z Sabener Straße.", link: "https://www.kicker.de/bayern-muenchen/info" },
