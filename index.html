@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nesky Assistant - Magda</title>
+    <title>Magda - Nesky Assistant</title>
+    
+    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=2">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=2">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,41 +20,33 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: 0.5s; }
         .app-container { width: 100%; max-width: 450px; min-height: 100vh; padding: 30px 20px; box-sizing: border-box; display: none; }
         .app-visible { display: block; }
-
         header { margin-bottom: 25px; }
         h1 { font-size: 26px; font-weight: 600; margin: 0; }
         .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; }
-
         .search-box { margin: 20px 0; position: relative; }
         .search-box input { width: 100%; padding: 14px 20px 14px 45px; border-radius: 30px; border: 1px solid #eee; background: var(--card-bg); color: var(--text-main); outline: none; box-shadow: var(--shadow); }
         .search-box::before { content: '🔍'; position: absolute; left: 18px; top: 14px; opacity: 0.5; }
-
         .email-card { background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
         .email-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .email-badge { background: var(--accent-color); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 600; }
-        .email-item { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-
-        /* NOWY STYL NEWSÓW */
-        .news-section { margin-top: 25px; }
         .news-item { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
         .news-tag { font-size: 9px; font-weight: 600; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
         .news-headline { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text-main); text-decoration: none; display: block; }
-        .news-headline:hover { color: var(--accent-color); text-decoration: underline; }
-        .joke-card { background: rgba(139, 69, 19, 0.05); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 15px; font-size: 13px; font-style: italic; margin-top: 20px; }
-
+        .joke-card { background: rgba(139, 69, 19, 0.05); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 15px; font-size: 13px; font-style: italic; margin-top: 20px; text-align: center; }
         #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 1000; display: flex; flex-direction: column; align-items: center; padding: 50px 20px; }
         .btn-start { background: #8B4513; color: white; border: none; padding: 15px; border-radius: 30px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 20px; }
-        input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: 1px solid #ddd; }
+        input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: 1px solid #ddd; background: #fff; }
     </style>
 </head>
 <body>
 
 <div id="onboarding-overlay">
-    <div style="max-width: 400px; width: 100%;">
-        <h2 style="font-family: 'Playfair Display', serif; text-align: center;">System Magda 8.0</h2>
-        <input type="text" id="user-name" placeholder="Imię (Tomku)">
-        <input type="text" id="user-home" placeholder="Miejscowość (Geroldshausen)">
-        <button class="btn-start" onclick="saveAndStart()">Synchronizuj Dane</button>
+    <div style="max-width: 400px; width: 100%; text-align: center;">
+        <img src="https://img.icons8.com/ios-filled/100/8B4513/fountain-pen-tip.png" alt="Logo" style="margin-bottom: 20px;">
+        <h2 style="font-family: 'Playfair Display', serif;">System Magda v8.3</h2>
+        <input type="text" id="user-name" placeholder="Twoje Imię">
+        <input type="text" id="user-home" placeholder="Twoja Miejscowość">
+        <button class="btn-start" onclick="saveAndStart()">Zaktualizuj i Wejdź</button>
     </div>
 </div>
 
@@ -62,25 +58,22 @@
 
     <div class="search-box">
         <form action="https://www.google.com/search" method="GET" target="_blank">
-            <input type="text" name="q" placeholder="Szukaj informacji...">
+            <input type="text" name="q" placeholder="Czego szukamy, Tomku?">
         </form>
     </div>
 
     <div class="email-card">
         <div class="email-header">
-            <span style="font-size: 11px; font-weight: 600;">NESKY MAIL: 2 WIADOMOŚCI</span>
-            <span class="email-badge">NOWE</span>
+            <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">NESKY MAIL: SYSTEM MAGDA</span>
+            <span class="email-badge">GMAIL SYNC</span>
         </div>
-        <div class="email-item"><span style="font-size: 13px; font-weight: 600;">Bursztynowa Komnata #01</span><br><small>T. Wisniewski • 14:11</small></div>
+        <div id="email-content" style="font-size: 13px;">Wczytywanie ostatnich wiadomości...</div>
     </div>
 
-    <span style="font-size: 16px; font-weight: 600;">Wiadomości i Pasje</span>
-    <div id="news-feed" class="news-section">
-        </div>
+    <span style="font-size: 16px; font-weight: 600;">Kurier Niemiecki</span>
+    <div id="news-feed"></div>
 
-    <div id="daily-joke" class="joke-card">
-        Ładowanie inteligentnego dowcipu...
-    </div>
+    <div id="daily-joke" class="joke-card"></div>
 
     <div style="margin-top: 40px; text-align: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent-color); font-size: 14px;">
         „Dla ciebie ja, Dla siebie on,<br>Taki obcy we mnie byt”
@@ -113,13 +106,13 @@
 
         if (hour >= 20 || hour < 6) document.body.classList.add('night-mode');
         document.getElementById('greeting-text').innerText = `${hour < 18 ? "Dzień dobry" : "Dobry wieczór"}, ${name}`;
-        document.getElementById('magda-intro').innerText = `W ${city} noc zapada powoli. Sprawdź newsy z Niemiec.`;
+        document.getElementById('magda-intro').innerText = `W ${city} noc zapada powoli. Magda czuwa nad planami.`;
+        document.getElementById('email-content').innerHTML = `<b>Ostatnia wiadomość: test</b><br><small>Pobrano przez Gemini • 20:42</small>`;
 
-        // DYNAMIZACJA NEWSÓW
         const news = [
-            { tag: "FC Bayern München", title: "Transferowe plotki z Sabener Straße: Kto wzmocni kadrę?", link: "https://www.kicker.de/bayern-muenchen/info" },
-            { tag: "Technologia", title: "Niemiecka inżynieria vs AI: Raport Heise Online.", link: "https://www.heise.de/" },
-            { tag: "Motoryzacja", title: "Nowy design elektrycznych limuzyn z Monachium.", link: "https://www.auto-motor-und-sport.de/" }
+            { tag: "FC Bayern", title: "Aktualności z Sabener Straße.", link: "https://www.kicker.de/bayern-muenchen/info" },
+            { tag: "Heise IT", title: "Inżynieria i AI w przemyśle.", link: "https://www.heise.de/" },
+            { tag: "Auto-Sport", title: "Testy drogowe z Monachium.", link: "https://www.auto-motor-und-sport.de/" }
         ];
 
         document.getElementById('news-feed').innerHTML = news.map(n => `
@@ -129,12 +122,7 @@
             </div>
         `).join('');
 
-        // INTELIGENTNY DOWCIP
-        const jokes = [
-            "Architekt pyta chirurga: 'Dlaczego wy zarabiacie więcej, skoro ja projektuję domy dla tysięcy ludzi, a wy operujecie tylko jednego?' Chirurg: 'Spróbuj poprawić błędy w projekcie, gdy dom już stoi i oddycha.'",
-            "Dlaczego inżynierowie wolą koty od psów? Bo koty mają wbudowany system oszczędzania energii, którego nikt nie musiał optymalizować."
-        ];
-        document.getElementById('daily-joke').innerText = jokes[Math.floor(Math.random() * jokes.length)];
+        document.getElementById('daily-joke').innerText = "Inżynier widzi, że szklanka ma po prostu dwa razy większą objętość niż potrzeba.";
     }
 </script>
 
