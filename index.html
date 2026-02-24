@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nesky Assistant - Magda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513;
+            --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        body.night-mode {
+            --bg-color: #1A1A1A; --card-bg: #262626; --text-main: #E0E0E0; --text-muted: #A0A0A0; --accent-color: #D2B48C;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: 0.5s; }
+        .app-container { width: 100%; max-width: 450px; min-height: 100vh; padding: 30px 20px; box-sizing: border-box; display: none; }
+        .app-visible { display: block; }
+
+        header { margin-bottom: 25px; }
+        h1 { font-size: 26px; font-weight: 600; margin: 0; }
+        .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; }
+
+        .search-box { margin: 20px 0; position: relative; }
+        .search-box input { width: 100%; padding: 14px 20px 14px 45px; border-radius: 30px; border: 1px solid #eee; background: var(--card-bg); color: var(--text-main); outline: none; box-shadow: var(--shadow); }
+        .search-box::before { content: '🔍'; position: absolute; left: 18px; top: 14px; opacity: 0.5; }
+
+        .email-card { background: var(--card-bg); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
+        .email-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .email-badge { background: var(--accent-color); color: white; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+        .email-item { padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+        /* NOWY STYL NEWSÓW */
+        .news-section { margin-top: 25px; }
+        .news-item { background: var(--card-bg); border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
+        .news-tag { font-size: 9px; font-weight: 600; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .news-headline { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text-main); text-decoration: none; display: block; }
+        .news-headline:hover { color: var(--accent-color); text-decoration: underline; }
+        .joke-card { background: rgba(139, 69, 19, 0.05); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 15px; font-size: 13px; font-style: italic; margin-top: 20px; }
+
+        #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 1000; display: flex; flex-direction: column; align-items: center; padding: 50px 20px; }
+        .btn-start { background: #8B4513; color: white; border: none; padding: 15px; border-radius: 30px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        input { width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+<div id="onboarding-overlay">
+    <div style="max-width: 400px; width: 100%;">
+        <h2 style="font-family: 'Playfair Display', serif; text-align: center;">System Magda 8.0</h2>
+        <input type="text" id="user-name" placeholder="Imię (Tomku)">
+        <input type="text" id="user-home" placeholder="Miejscowość (Geroldshausen)">
+        <button class="btn-start" onclick="saveAndStart()">Synchronizuj Dane</button>
+    </div>
+</div>
+
+<div id="main-app" class="app-container">
+    <header>
+        <h1 id="greeting-text">Witaj</h1>
+        <p id="magda-intro" style="font-family: 'Playfair Display', serif; font-style: italic; color: var(--text-muted);"></p>
+    </header>
+
+    <div class="search-box">
+        <form action="https://www.google.com/search" method="GET" target="_blank">
+            <input type="text" name="q" placeholder="Szukaj informacji...">
+        </form>
+    </div>
+
+    <div class="email-card">
+        <div class="email-header">
+            <span style="font-size: 11px; font-weight: 600;">NESKY MAIL: 2 WIADOMOŚCI</span>
+            <span class="email-badge">NOWE</span>
+        </div>
+        <div class="email-item"><span style="font-size: 13px; font-weight: 600;">Bursztynowa Komnata #01</span><br><small>T. Wisniewski • 14:11</small></div>
+    </div>
+
+    <span style="font-size: 16px; font-weight: 600;">Wiadomości i Pasje</span>
+    <div id="news-feed" class="news-section">
+        </div>
+
+    <div id="daily-joke" class="joke-card">
+        Ładowanie inteligentnego dowcipu...
+    </div>
+
+    <div style="margin-top: 40px; text-align: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent-color); font-size: 14px;">
+        „Dla ciebie ja, Dla siebie on,<br>Taki obcy we mnie byt”
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        if(localStorage.getItem('magda_setup_done')) { showApp(); }
+    };
+
+    function saveAndStart() {
+        localStorage.setItem('nesky_name', document.getElementById('user-name').value || "Tomku");
+        localStorage.setItem('nesky_home', document.getElementById('user-home').value || "Geroldshausen");
+        localStorage.setItem('magda_setup_done', 'true');
+        showApp();
+    }
+
+    function showApp() {
+        document.getElementById('onboarding-overlay').style.display = 'none';
+        document.getElementById('main-app').classList.add('app-visible');
+        updateData();
+    }
+
+    function updateData() {
+        const now = new Date();
+        const hour = now.getHours();
+        const name = localStorage.getItem('nesky_name');
+        const city = localStorage.getItem('nesky_home');
+
+        if (hour >= 20 || hour < 6) document.body.classList.add('night-mode');
+        document.getElementById('greeting-text').innerText = `${hour < 18 ? "Dzień dobry" : "Dobry wieczór"}, ${name}`;
+        document.getElementById('magda-intro').innerText = `W ${city} noc zapada powoli. Sprawdź newsy z Niemiec.`;
+
+        // DYNAMIZACJA NEWSÓW
+        const news = [
+            { tag: "FC Bayern München", title: "Transferowe plotki z Sabener Straße: Kto wzmocni kadrę?", link: "https://www.kicker.de/bayern-muenchen/info" },
+            { tag: "Technologia", title: "Niemiecka inżynieria vs AI: Raport Heise Online.", link: "https://www.heise.de/" },
+            { tag: "Motoryzacja", title: "Nowy design elektrycznych limuzyn z Monachium.", link: "https://www.auto-motor-und-sport.de/" }
+        ];
+
+        document.getElementById('news-feed').innerHTML = news.map(n => `
+            <div class="news-item">
+                <span class="news-tag">${n.tag}</span>
+                <a href="${n.link}" target="_blank" class="news-headline">${n.title}</a>
+            </div>
+        `).join('');
+
+        // INTELIGENTNY DOWCIP
+        const jokes = [
+            "Architekt pyta chirurga: 'Dlaczego wy zarabiacie więcej, skoro ja projektuję domy dla tysięcy ludzi, a wy operujecie tylko jednego?' Chirurg: 'Spróbuj poprawić błędy w projekcie, gdy dom już stoi i oddycha.'",
+            "Dlaczego inżynierowie wolą koty od psów? Bo koty mają wbudowany system oszczędzania energii, którego nikt nie musiał optymalizować."
+        ];
+        document.getElementById('daily-joke').innerText = jokes[Math.floor(Math.random() * jokes.length)];
+    }
+</script>
+
+</body>
+</html>
