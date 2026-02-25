@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magda v11.0 - Nesky Assistant</title>
+    <title>Magda v11.5 - Nesky Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513; --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; justify-content: center; transition: 0.5s; }
+        :root { --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513; --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03); --status-green: #2ecc71; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; justify-content: center; }
         .app-container { width: 100%; max-width: 450px; padding: 20px 20px 160px 20px; box-sizing: border-box; }
         
         header { margin-bottom: 15px; }
@@ -15,21 +15,26 @@
         .search-box input { width: 100%; padding: 12px 20px 12px 45px; border-radius: 35px; border: 1px solid rgba(0,0,0,0.1); background: var(--card-bg); outline: none; box-shadow: var(--shadow); font-size: 16px; box-sizing: border-box; }
         .search-box::before { content: '🔍'; position: absolute; left: 18px; top: 12px; opacity: 0.6; }
 
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .small-card { background: var(--card-bg); border-radius: 18px; padding: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); position: relative; overflow: hidden; }
-        .small-card-title { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; position: relative; z-index: 2; }
-        .small-card-value { font-size: 14px; font-weight: 600; color: var(--accent-color); position: relative; z-index: 2; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .small-card { background: var(--card-bg); border-radius: 18px; padding: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
+        .small-card-title { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
+        .small-card-value { font-size: 14px; font-weight: 600; color: var(--accent-color); }
 
-        /* Styl dla kafelka z humorem */
-        .humor-img { width: 100%; height: 60px; object-fit: cover; border-radius: 10px; margin-top: 5px; cursor: pointer; transition: transform 0.2s; }
-        .humor-img:active { transform: scale(0.95); }
-
-        .section-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 20px 0 8px 5px; letter-spacing: 1px; }
-        .card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); margin-bottom: 12px; }
+        .section-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 25px 0 10px 5px; letter-spacing: 1px; }
         
+        /* DROGI & KALENDARZ */
+        .card { background: var(--card-bg); border-radius: 18px; padding: 12px 15px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); margin-bottom: 8px; }
         .item-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 14px; text-decoration: none; color: inherit; }
         .item-row:last-child { border-bottom: none; }
-        .label-bold { font-weight: 600; color: var(--accent-color); min-width: 55px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 10px; display: inline-block; }
+
+        /* NEWS */
+        .news-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); margin-bottom: 18px; text-decoration: none; color: inherit; display: block; transition: 0.3s; }
+        .news-img { width: 100%; height: 140px; object-fit: cover; }
+        .news-content { padding: 15px; }
+        .news-tag { font-size: 8px; font-weight: 800; color: var(--accent-color); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .news-title { font-size: 15px; font-weight: 600; margin: 0 0 5px 0; color: var(--text-main); line-height: 1.3; }
+        .news-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin: 0; }
 
         .voice-btn { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.3); border: none; z-index: 1000; }
     </style>
@@ -39,7 +44,7 @@
 <div class="app-container">
     <header>
         <h1 style="font-size: 24px;">Witaj, Tomku</h1>
-        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--text-muted); margin: 0;">Faza koncepcyjna zakończona. Humoru nigdy dość.</p>
+        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--text-muted); margin: 0;">Wszystkie sekcje aktywne.</p>
     </header>
 
     <div class="search-box">
@@ -50,40 +55,62 @@
 
     <div class="status-grid">
         <div class="small-card">
-            <div class="small-card-title">Pogoda (Erlenbach)</div>
-            <div class="small-card-value">11°C ⛅</div>
+            <div class="small-card-title">Pogoda (Moos)</div>
+            <div class="small-card-value">6°C 🌙</div>
         </div>
-        <div class="small-card" onclick="refreshHumor()">
-            <div class="small-card-title">Chwila Humoru</div>
-            <img id="humor-pic" class="humor-img" src="https://loremflickr.com/320/240/funny,cat" alt="Zabawny obrazek">
+        <div class="small-card">
+            <div class="small-card-title">P&G Dojazd</div>
+            <div class="small-card-value" style="color:var(--status-green);">Płynnie ✅</div>
         </div>
     </div>
 
-    <div class="section-title">🚗 Drogi</div>
+    <div class="section-title">🚗 Logistyka P&G</div>
     <div class="card">
-        <div class="item-row"><span>Geroldshausen - Moos</span><span>✅ Płynnie</span></div>
-        <div class="item-row"><span>Dojazd do Würzburga</span><span>⚠️ Spowolnienie</span></div>
-    </div>
-
-    <div class="section-title">📅 Kalendarz</div>
-    <div class="card">
-        <div class="item-row"><span class="label-bold">27.02</span><span>Bioabfall ♻️</span></div>
-        <div class="item-row"><span class="label-bold">06.03</span><span>Restmüll 🗑️</span></div>
-    </div>
-
-    <div class="section-title">⚽ FC Bayern</div>
-    <div class="card">
-        <a href="https://www.kicker.de/bundesliga/spieltag" target="_blank" class="item-row">
-            <span class="label-bold">28.02</span><span>vs Dortmund (W) 🏟️</span>
+        <a href="https://www.google.com/maps/dir/97+Geroldshausen-Moos/Procter+%26+Gamble+Manufacturing+GmbH,+Baumhofstra%C3%9Fe+40,+97828+Marktheidenfeld" target="_blank" class="item-row">
+            <span><span class="status-dot" style="background: var(--status-green);"></span>Do pracy (Baumhofstr.)</span>
+            <span style="font-weight: 600; color: var(--accent-color);">36 min</span>
         </a>
+        <a href="https://www.google.com/maps/dir/Procter+%26+Gamble+Manufacturing+GmbH,+Baumhofstra%C3%9Fe+40,+97828+Marktheidenfeld/97+Geroldshausen-Moos" target="_blank" class="item-row">
+            <span><span class="status-dot" style="background: var(--status-green);"></span>Powrót do Moos</span>
+            <span style="font-weight: 600; color: var(--accent-color);">36 min</span>
+        </a>
+    </div>
+
+    <div class="section-title">📅 Nadchodzące</div>
+    <div class="card">
+        <div class="item-row"><span style="font-weight:600; color:var(--accent-color);">27.02</span><span>Bioabfall ♻️</span></div>
+        <div class="item-row"><span style="font-weight:600; color:var(--accent-color);">28.02</span><span>vs Dortmund ⚽ (W)</span></div>
+        <div class="item-row"><span style="font-weight:600; color:var(--accent-color);">06.03</span><span>Restmüll 🗑️</span></div>
     </div>
 
     <div class="section-title">📰 Nesky Kurier</div>
-    <div class="card">
-        <a href="https://www.heise.de" target="_blank" style="text-decoration:none; color:inherit;">
-            <p style="font-size:13px; margin:0;">Inżynieria wrzośca: Nowe techniki suszenia w 2026 r.</p>
-        </a>
-    </div>
+
+    <a href="https://www.heise.de" target="_blank" class="news-card">
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" class="news-img">
+        <div class="news-content">
+            <span class="news-tag">Technologia</span>
+            <h3 class="news-title">Automatyzacja procesów w przemyśle 2026</h3>
+            <p class="news-desc">Nowe standardy na liniach produkcyjnych w Bawarii. Co to oznacza dla inżynierów?</p>
+        </div>
+    </a>
+
+    <a href="https://www.kicker.de/bayern-muenchen/info" target="_blank" class="news-card">
+        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&q=80" class="news-img">
+        <div class="news-content">
+            <span class="news-tag">FC Bayern</span>
+            <h3 class="news-title">Analiza przed spotkaniem z Dortmundem</h3>
+            <p class="news-desc">Thomas Müller o taktyce na sobotni mecz. Allianz Arena czeka na wielkie emocje.</p>
+        </div>
+    </a>
+
+    <a href="https://www.auto-motor-und-sport.de/" target="_blank" class="news-card">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=500&q=80" class="news-img">
+        <div class="news-content">
+            <span class="news-tag">Motoryzacja</span>
+            <h3 class="news-title">Testy nowych modeli z Monachium</h3>
+            <p class="news-desc">Połączenie klasycznej elegancji z nowoczesnym napędem. Wyniki najnowszych testów drogowych.</p>
+        </div>
+    </a>
 </div>
 
 <button class="voice-btn" onclick="startVoiceRecognition()">
@@ -91,12 +118,6 @@
 </button>
 
 <script>
-    function refreshHumor() {
-        const img = document.getElementById('humor-pic');
-        // Dodajemy timestamp, aby przeglądarka nie ładowała z cache'u tego samego obrazka
-        img.src = "https://loremflickr.com/320/240/funny,dog,cat?v=" + new Date().getTime();
-    }
-
     function startVoiceRecognition() {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'pl-PL';
