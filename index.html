@@ -3,82 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magda - Nesky Assistant</title>
-    
-    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=9.3">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=9.3">
-    <meta name="theme-color" content="#8B4513">
-
+    <title>Magda - Nesky Assistant v9.4</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513;
-            --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03);
-        }
-        body.night-mode {
-            --bg-color: #1A1A1A; --card-bg: #262626; --text-main: #E0E0E0; --text-muted: #A0A0A0; --accent-color: #D2B48C;
-        }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: 0.5s; }
-        
+        :root { --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513; --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        body.night-mode { --bg-color: #1A1A1A; --card-bg: #262626; --text-main: #E0E0E0; --text-muted: #A0A0A0; --accent-color: #D2B48C; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; justify-content: center; transition: 0.5s; }
         .app-container { width: 100%; max-width: 450px; min-height: 100vh; padding: 30px 20px 160px 20px; box-sizing: border-box; display: none; position: relative; }
         .app-visible { display: block; }
-        
         header { margin-bottom: 25px; }
         h1 { font-size: 26px; font-weight: 600; margin: 0; }
-        .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
-
-        /* PRZYCISK GŁOSOWY */
-        .voice-btn {
-            position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px;
-            background: var(--accent-color); border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.5);
-            cursor: pointer; z-index: 9999; border: none; transition: transform 0.2s;
-        }
-        .voice-btn:active { transform: scale(0.9); }
-        .voice-btn.listening { animation: pulse-red 1.5s infinite; background: #d32f2f; }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); } 70% { box-shadow: 0 0 0 25px rgba(211, 47, 47, 0); } 100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); } }
-
-        .search-box { margin: 25px 0; position: relative; }
-        .search-box input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 35px; border: 1px solid rgba(0,0,0,0.1); background: var(--card-bg); color: var(--text-main); outline: none; box-shadow: var(--shadow); font-size: 16px; box-sizing: border-box; }
-        .search-box::before { content: '🔍'; position: absolute; left: 20px; top: 16px; font-size: 18px; opacity: 0.6; }
-
-        .card { background: var(--card-bg); border-radius: 22px; padding: 22px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .small-card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
         .small-card-title { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
-        .small-card-value { font-size: 14px; font-weight: 600; }
-        
-        .news-section { display: grid; gap: 12px; margin-top: 15px; }
-        .news-item { background: var(--card-bg); border-radius: 18px; padding: 18px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); text-decoration: none; color: inherit; display: block; }
-        .news-tag { font-size: 10px; font-weight: 700; color: var(--accent-color); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
-        .news-headline { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text-main); }
-        
-        .joke-card { background: rgba(139, 69, 19, 0.04); border: 1px dashed var(--accent-color); padding: 25px; border-radius: 20px; font-size: 13px; font-style: italic; margin-top: 10px; text-align: center; line-height: 1.6; }
-        
-        #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 100000; display: flex; flex-direction: column; align-items: center; padding: 60px 25px; box-sizing: border-box; }
-        .btn-start { background: #8B4513; color: white; border: none; padding: 18px; border-radius: 35px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 25px; font-size: 16px; }
-        .onboarding-input { width: 100%; padding: 14px; margin-top: 12px; border-radius: 12px; border: 1px solid #ddd; background: #fff; font-size: 16px; box-sizing: border-box; }
+        .small-card-value { font-size: 16px; font-weight: 600; color: var(--accent-color); }
+        .card { background: var(--card-bg); border-radius: 22px; padding: 22px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
+        .news-item { background: var(--card-bg); border-radius: 18px; padding: 18px; border: 1px solid rgba(0,0,0,0.05); margin-top: 10px; text-decoration: none; color: inherit; display: block; }
+        .joke-card { background: rgba(139, 69, 19, 0.04); border: 1px dashed var(--accent-color); padding: 20px; border-radius: 20px; font-style: italic; text-align: center; font-size: 14px; }
+        .voice-btn { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.5); border: none; z-index: 9999; }
+        #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 100000; display: flex; flex-direction: column; align-items: center; padding: 40px 25px; box-sizing: border-box; overflow-y: auto; }
+        .onboarding-input { width: 100%; padding: 14px; margin-top: 10px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; }
+        .btn-start { background: #8B4513; color: white; border: none; padding: 18px; border-radius: 35px; width: 100%; font-weight: 600; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<button class="voice-btn" id="voice-trigger" onclick="startVoiceRecognition()">
+<button class="voice-btn" onclick="startVoiceRecognition()">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
 </button>
 
 <div id="onboarding-overlay">
-    <div style="max-width: 400px; width: 100%; text-align: center;">
-        <img src="https://img.icons8.com/ios-filled/100/8B4513/fountain-pen-tip.png" alt="Logo" style="margin-bottom: 25px;">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 28px;">Magda v9.3</h2>
-        <input type="text" id="user-name" class="onboarding-input" placeholder="Twoje Imię">
-        <input type="text" id="user-home" class="onboarding-input" placeholder="Miejscowość">
-        <select id="user-transport" class="onboarding-input">
-            <option value="samochodem">Samochód</option>
-            <option value="rowerem">Rower</option>
-            <option value="pieszo">Pieszo</option>
-        </select>
-        <button class="btn-start" onclick="saveAndStart()">Synchronizuj Dzień</button>
-    </div>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 28px;">Konfiguracja v9.4</h2>
+    <input type="text" id="user-name" class="onboarding-input" placeholder="Twoje Imię">
+    <input type="text" id="user-home" class="onboarding-input" placeholder="Twoje Miasto">
+    <p style="font-size: 12px; margin-top: 20px; color: #666;">Wydarzenie do odliczania:</p>
+    <input type="text" id="event-name" class="onboarding-input" placeholder="Nazwa wydarzenia">
+    <input type="date" id="event-date" class="onboarding-input">
+    <button class="btn-start" onclick="saveAndStart()">Uruchom System</button>
 </div>
 
 <div id="main-app" class="app-container">
@@ -87,43 +49,53 @@
         <p id="magda-intro" class="date-summary"></p>
     </header>
 
-    <div class="search-box">
-        <form action="https://www.google.com/search" method="GET" target="_blank">
-            <input type="text" name="q" placeholder="Zapytaj Google...">
-        </form>
+    <div class="status-grid">
+        <div class="small-card">
+            <div class="small-card-title">Kroki Today</div>
+            <div class="small-card-value" id="step-count">0</div>
+        </div>
+        <div class="small-card">
+            <div class="small-card-title" id="cd-title">Odliczanie</div>
+            <div class="small-card-value" id="cd-value">0 dni</div>
+        </div>
     </div>
 
     <div class="status-grid">
         <div class="small-card">
             <div class="small-card-title">Pogoda</div>
-            <div class="small-card-value" id="weather-val">12°C, Pochmurno</div>
+            <div class="small-card-value" id="weather-val">--°C</div>
         </div>
         <div class="small-card">
             <div class="small-card-title">Logistyka</div>
-            <div class="small-card-value" id="traffic-val">Ruch płynny</div>
+            <div class="small-card-value">Trasa OK</div>
         </div>
     </div>
 
-    <div class="card">
-        <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 10px;">LOKALIZACJA</div>
-        <div id="location-text" style="font-size: 15px; font-weight: 600;">📍 Ustalanie...</div>
-    </div>
-
-    <h2 style="font-size: 18px; font-weight: 600; margin: 30px 0 10px 0;">Kurier i Pasje</h2>
-    <div id="news-feed" class="news-section"></div>
-
-    <div id="daily-joke" class="joke-card"></div>
+    <div id="news-feed" style="margin-top: 20px;"></div>
+    <div id="daily-joke" class="joke-card" style="margin-top: 20px;"></div>
 </div>
 
 <script>
+    let stepCount = 0;
+
     window.onload = function() {
         if(localStorage.getItem('magda_setup_done')) { showApp(); }
+        if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', (event) => {
+                let acc = event.accelerationIncludingGravity;
+                if (Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z) > 15) {
+                    stepCount++;
+                    document.getElementById('step-count').innerText = Math.floor(stepCount/10);
+                }
+            });
+        }
     };
 
     function saveAndStart() {
         localStorage.setItem('nesky_name', document.getElementById('user-name').value || "Tomku");
         localStorage.setItem('nesky_home', document.getElementById('user-home').value || "Erlenbach");
-        localStorage.setItem('nesky_transport', document.getElementById('user-transport').value);
+        localStorage.setItem('event_name', document.getElementById('event-name').value || "Ważna Data");
+        localStorage.setItem('event_date', document.getElementById('event-date').value);
         localStorage.setItem('magda_setup_done', 'true');
         showApp();
     }
@@ -134,69 +106,35 @@
         updateAllData();
     }
 
-    async function updateAllData() {
+    function updateAllData() {
         const name = localStorage.getItem('nesky_name');
-        const homeCity = localStorage.getItem('nesky_home');
-        const transport = localStorage.getItem('nesky_transport');
+        const eventName = localStorage.getItem('event_name');
+        const eventDate = new Date(localStorage.getItem('event_date'));
         const now = new Date();
-        const hour = now.getHours();
 
-        document.getElementById('greeting-text').innerText = `${hour < 18 ? "Dzień dobry" : "Dobry wieczór"}, ${name}`;
+        document.getElementById('greeting-text').innerText = `Dzień dobry, ${name}`;
         
-        // Domyślne wartości na wypadek braku GPS
-        document.getElementById('location-text').innerText = `📍 ${homeCity}`;
-        document.getElementById('magda-intro').innerText = `W ${homeCity} zapowiada się ciekawa środa. Magda czuwa.`;
-        document.getElementById('traffic-val').innerText = `Podróż ${transport} OK`;
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                try {
-                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`);
-                    const data = await res.json();
-                    const city = data.address.village || data.address.town || data.address.city || homeCity;
-                    document.getElementById('location-text').innerText = `📍 ${city}`;
-                    document.getElementById('magda-intro').innerText = `W ${city} niebo ma dziś kolor starego wrzośca. Idealnie do warsztatu.`;
-                    document.getElementById('weather-val').innerText = `8°C, Rześko`;
-                    document.getElementById('traffic-val').innerText = `Trasa ${transport}: płynna`;
-                } catch (e) { console.log("Lokalizacja z pamięci."); }
-            });
+        // Odliczanie
+        if (eventDate) {
+            const diff = eventDate - now;
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('cd-title').innerText = eventName;
+            document.getElementById('cd-value').innerText = days > 0 ? `${days} dni` : "To dzisiaj!";
         }
 
-        // Newsy
-        const news = [
-            { tag: "FC Bayern", title: "Bayern przygotowuje się do kolejnego starcia w Bundeslidze.", link: "https://www.kicker.de/bayern-muenchen/info" },
-            { tag: "Technologia", title: "Niemiecka inżynieria vs AI: nowy raport Heise.", link: "https://www.heise.de/" },
-            { tag: "Motoryzacja", title: "Testujemy nową limuzynę z Bawarii - czy to król szos?", link: "https://www.auto-motor-und-sport.de/" }
-        ];
-
-        document.getElementById('news-feed').innerHTML = news.map(n => `
-            <a href="${n.link}" target="_blank" class="news-item">
-                <span class="news-tag">${n.tag}</span>
-                <span class="news-headline">${n.title}</span>
-            </a>
-        `).join('');
-
-        document.getElementById('daily-joke').innerText = "Inżynier widzi, że szklanka ma po prostu dwa razy większą objętość niż potrzeba.";
+        document.getElementById('weather-val').innerText = "8°C, Rześko";
+        document.getElementById('magda-intro').innerText = "Wszystkie systemy sprawne. Magda jest gotowa.";
+        
+        document.getElementById('news-feed').innerHTML = `
+            <div class="news-item"><b>News Dnia:</b> Niemiecka inżynieria wchodzi w nową fazę cyfryzacji.</div>
+        `;
+        document.getElementById('daily-joke').innerText = "Dlaczego inżynierowie nie lubią słońca? Bo psuje im kontrast na monitorze.";
     }
 
     function startVoiceRecognition() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) return alert("Brak obsługi mowy.");
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'pl-PL';
-        recognition.onstart = () => { document.getElementById('voice-trigger').classList.add('listening'); };
-        recognition.onresult = (event) => {
-            const cmd = event.results[0][0].transcript.toLowerCase();
-            if (cmd.includes("szukaj")) {
-                const query = cmd.split("szukaj")[1].trim();
-                window.open(`https://www.google.com/search?q=${query}`, '_blank');
-            } else if (cmd.includes("żart") || cmd.includes("dowcip")) { updateAllData(); }
-        };
-        recognition.onend = () => { document.getElementById('voice-trigger').classList.remove('listening'); };
-        recognition.start();
+        alert("Słucham Cię, Tomku...");
     }
 </script>
-
 </body>
 </html>
  
