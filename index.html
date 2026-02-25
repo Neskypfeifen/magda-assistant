@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magda - Nesky Assistant</title>
     
-    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=9.2">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=9.2">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/50/8B4513/fountain-pen-tip.png?v=9.3">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/150/8B4513/fountain-pen-tip.png?v=9.3">
     <meta name="theme-color" content="#8B4513">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
@@ -20,7 +20,6 @@
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; transition: 0.5s; }
         
-        /* POPRAWKA: Bardzo duży padding na dole, aby uniknąć zasłaniania przez przycisk */
         .app-container { width: 100%; max-width: 450px; min-height: 100vh; padding: 30px 20px 160px 20px; box-sizing: border-box; display: none; position: relative; }
         .app-visible { display: block; }
         
@@ -28,7 +27,7 @@
         h1 { font-size: 26px; font-weight: 600; margin: 0; }
         .date-summary { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
 
-        /* PRZYCISK GŁOSOWY - Zoptymalizowana pozycja */
+        /* PRZYCISK GŁOSOWY */
         .voice-btn {
             position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px;
             background: var(--accent-color); border-radius: 50%; display: flex;
@@ -44,24 +43,25 @@
         .search-box::before { content: '🔍'; position: absolute; left: 20px; top: 16px; font-size: 18px; opacity: 0.6; }
 
         .card { background: var(--card-bg); border-radius: 22px; padding: 22px; margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .small-card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
+        .small-card-title { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .small-card-value { font-size: 14px; font-weight: 600; }
         
-        .news-section { display: grid; gap: 15px; margin-top: 15px; }
+        .news-section { display: grid; gap: 12px; margin-top: 15px; }
         .news-item { background: var(--card-bg); border-radius: 18px; padding: 18px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); text-decoration: none; color: inherit; display: block; }
         .news-tag { font-size: 10px; font-weight: 700; color: var(--accent-color); text-transform: uppercase; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
-        .news-headline { font-size: 15px; font-weight: 500; line-height: 1.5; color: var(--text-main); }
+        .news-headline { font-size: 14px; font-weight: 500; line-height: 1.4; color: var(--text-main); }
         
-        .joke-card { background: rgba(139, 69, 19, 0.04); border: 1px dashed var(--accent-color); padding: 25px; border-radius: 20px; font-size: 14px; font-style: italic; margin-top: 10px; text-align: center; line-height: 1.6; }
+        .joke-card { background: rgba(139, 69, 19, 0.04); border: 1px dashed var(--accent-color); padding: 25px; border-radius: 20px; font-size: 13px; font-style: italic; margin-top: 10px; text-align: center; line-height: 1.6; }
         
-        #voice-status { position: fixed; bottom: 110px; right: 25px; background: rgba(0,0,0,0.9); color: white; padding: 12px 20px; border-radius: 15px; font-size: 13px; display: none; z-index: 10000; backdrop-filter: blur(8px); }
-
         #onboarding-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FDFDFD; z-index: 100000; display: flex; flex-direction: column; align-items: center; padding: 60px 25px; box-sizing: border-box; }
         .btn-start { background: #8B4513; color: white; border: none; padding: 18px; border-radius: 35px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 25px; font-size: 16px; }
         .onboarding-input { width: 100%; padding: 14px; margin-top: 12px; border-radius: 12px; border: 1px solid #ddd; background: #fff; font-size: 16px; box-sizing: border-box; }
     </style>
 </head>
-<body class="night-mode">
+<body>
 
-<div id="voice-status">Słucham...</div>
 <button class="voice-btn" id="voice-trigger" onclick="startVoiceRecognition()">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
 </button>
@@ -69,11 +69,15 @@
 <div id="onboarding-overlay">
     <div style="max-width: 400px; width: 100%; text-align: center;">
         <img src="https://img.icons8.com/ios-filled/100/8B4513/fountain-pen-tip.png" alt="Logo" style="margin-bottom: 25px;">
-        <h2 style="font-family: 'Playfair Display', serif; font-size: 28px;">Magda v9.2</h2>
-        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">Fix: Struktura Fundamentów</p>
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 28px;">Magda v9.3</h2>
         <input type="text" id="user-name" class="onboarding-input" placeholder="Twoje Imię">
         <input type="text" id="user-home" class="onboarding-input" placeholder="Miejscowość">
-        <button class="btn-start" onclick="saveAndStart()">Uruchom System</button>
+        <select id="user-transport" class="onboarding-input">
+            <option value="samochodem">Samochód</option>
+            <option value="rowerem">Rower</option>
+            <option value="pieszo">Pieszo</option>
+        </select>
+        <button class="btn-start" onclick="saveAndStart()">Synchronizuj Dzień</button>
     </div>
 </div>
 
@@ -84,17 +88,25 @@
     </header>
 
     <div class="search-box">
-        <form id="search-form" action="https://www.google.com/search" method="GET" target="_blank">
-            <input type="text" id="search-input" name="q" placeholder="Czego szukamy, Tomku?">
+        <form action="https://www.google.com/search" method="GET" target="_blank">
+            <input type="text" name="q" placeholder="Zapytaj Google...">
         </form>
     </div>
 
-    <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.8px; color: var(--text-muted);">MODUŁ GŁOSOWY</span>
-            <span id="mic-indicator" style="color: var(--accent-color); font-size: 11px; font-weight: 700;">LIVE</span>
+    <div class="status-grid">
+        <div class="small-card">
+            <div class="small-card-title">Pogoda</div>
+            <div class="small-card-value" id="weather-val">12°C, Pochmurno</div>
         </div>
-        <div style="font-size: 14px; line-height: 1.5;">Powiedz: <b>"Magda, powiedz dowcip"</b> lub szukaj głosowo informacji w sieci.</div>
+        <div class="small-card">
+            <div class="small-card-title">Logistyka</div>
+            <div class="small-card-value" id="traffic-val">Ruch płynny</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 10px;">LOKALIZACJA</div>
+        <div id="location-text" style="font-size: 15px; font-weight: 600;">📍 Ustalanie...</div>
     </div>
 
     <h2 style="font-size: 18px; font-weight: 600; margin: 30px 0 10px 0;">Kurier i Pasje</h2>
@@ -110,7 +122,8 @@
 
     function saveAndStart() {
         localStorage.setItem('nesky_name', document.getElementById('user-name').value || "Tomku");
-        localStorage.setItem('nesky_home', document.getElementById('user-home').value || "Geroldshausen");
+        localStorage.setItem('nesky_home', document.getElementById('user-home').value || "Erlenbach");
+        localStorage.setItem('nesky_transport', document.getElementById('user-transport').value);
         localStorage.setItem('magda_setup_done', 'true');
         showApp();
     }
@@ -118,67 +131,42 @@
     function showApp() {
         document.getElementById('onboarding-overlay').style.display = 'none';
         document.getElementById('main-app').classList.add('app-visible');
-        updateData();
+        updateAllData();
     }
 
-    function startVoiceRecognition() {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-            alert("Brak obsługi mowy w przeglądarce.");
-            return;
-        }
-
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'pl-PL';
-        const btn = document.getElementById('voice-trigger');
-        const status = document.getElementById('voice-status');
-
-        recognition.onstart = () => {
-            btn.classList.add('listening');
-            status.style.display = 'block';
-            status.innerText = "Słucham...";
-        };
-
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript.toLowerCase();
-            status.innerText = "Usłyszałam: " + transcript;
-            processCommand(transcript);
-        };
-
-        recognition.onend = () => {
-            btn.classList.remove('listening');
-            setTimeout(() => { status.style.display = 'none'; }, 2000);
-        };
-
-        recognition.start();
-    }
-
-    function processCommand(cmd) {
-        if (cmd.includes("dowcip") || cmd.includes("żart")) {
-            updateData(); 
-        } else if (cmd.includes("nocny")) {
-            document.body.classList.add('night-mode');
-        } else if (cmd.includes("dzienny")) {
-            document.body.classList.remove('night-mode');
-        } else if (cmd.includes("szukaj")) {
-            const query = cmd.split("szukaj")[1]?.trim();
-            if(query) window.open(`https://www.google.com/search?q=${query}`, '_blank');
-        }
-    }
-
-    function updateData() {
+    async function updateAllData() {
+        const name = localStorage.getItem('nesky_name');
+        const homeCity = localStorage.getItem('nesky_home');
+        const transport = localStorage.getItem('nesky_transport');
         const now = new Date();
         const hour = now.getHours();
-        const name = localStorage.getItem('nesky_name');
-        const city = localStorage.getItem('nesky_home');
 
         document.getElementById('greeting-text').innerText = `${hour < 18 ? "Dzień dobry" : "Dobry wieczór"}, ${name}`;
-        document.getElementById('magda-intro').innerText = `W ${city} czas płynie spokojnie. Spójrz na raport z Monachium.`;
+        
+        // Domyślne wartości na wypadek braku GPS
+        document.getElementById('location-text').innerText = `📍 ${homeCity}`;
+        document.getElementById('magda-intro').innerText = `W ${homeCity} zapowiada się ciekawa środa. Magda czuwa.`;
+        document.getElementById('traffic-val').innerText = `Podróż ${transport} OK`;
 
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                try {
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`);
+                    const data = await res.json();
+                    const city = data.address.village || data.address.town || data.address.city || homeCity;
+                    document.getElementById('location-text').innerText = `📍 ${city}`;
+                    document.getElementById('magda-intro').innerText = `W ${city} niebo ma dziś kolor starego wrzośca. Idealnie do warsztatu.`;
+                    document.getElementById('weather-val').innerText = `8°C, Rześko`;
+                    document.getElementById('traffic-val').innerText = `Trasa ${transport}: płynna`;
+                } catch (e) { console.log("Lokalizacja z pamięci."); }
+            });
+        }
+
+        // Newsy
         const news = [
             { tag: "FC Bayern", title: "Bayern przygotowuje się do kolejnego starcia w Bundeslidze.", link: "https://www.kicker.de/bayern-muenchen/info" },
-            { tag: "Heise IT", title: "Przełom w technologii kwantowej: raport Heise.", link: "https://www.heise.de/" },
-            { tag: "Auto-Sport", title: "Testujemy najnowszą limuzynę z Bawarii - król szos?", link: "https://www.auto-motor-und-sport.de/" }
+            { tag: "Technologia", title: "Niemiecka inżynieria vs AI: nowy raport Heise.", link: "https://www.heise.de/" },
+            { tag: "Motoryzacja", title: "Testujemy nową limuzynę z Bawarii - czy to król szos?", link: "https://www.auto-motor-und-sport.de/" }
         ];
 
         document.getElementById('news-feed').innerHTML = news.map(n => `
@@ -188,12 +176,24 @@
             </a>
         `).join('');
 
-        const jokes = [
-            "Architekt to osoba, która nie była wystarczająco silna, by zostać inżynierem, ale jest zbyt mądra, by być artystą.",
-            "Inżynier widzi, że szklanka ma po prostu dwa razy większą objętość niż potrzeba.",
-            "Architekt pyta chirurga: 'Dlaczego zarabiacie więcej?' Chirurg: 'Spróbuj poprawić projekt, gdy dom już stoi i oddycha.'"
-        ];
-        document.getElementById('daily-joke').innerText = jokes[Math.floor(Math.random() * jokes.length)];
+        document.getElementById('daily-joke').innerText = "Inżynier widzi, że szklanka ma po prostu dwa razy większą objętość niż potrzeba.";
+    }
+
+    function startVoiceRecognition() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) return alert("Brak obsługi mowy.");
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'pl-PL';
+        recognition.onstart = () => { document.getElementById('voice-trigger').classList.add('listening'); };
+        recognition.onresult = (event) => {
+            const cmd = event.results[0][0].transcript.toLowerCase();
+            if (cmd.includes("szukaj")) {
+                const query = cmd.split("szukaj")[1].trim();
+                window.open(`https://www.google.com/search?q=${query}`, '_blank');
+            } else if (cmd.includes("żart") || cmd.includes("dowcip")) { updateAllData(); }
+        };
+        recognition.onend = () => { document.getElementById('voice-trigger').classList.remove('listening'); };
+        recognition.start();
     }
 </script>
 
