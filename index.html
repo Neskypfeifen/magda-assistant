@@ -3,70 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magda - Nesky Assistant v9.7</title>
+    <title>Magda - Nesky Assistant v9.8</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root { --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513; --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03); }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; justify-content: center; }
         .app-container { width: 100%; max-width: 450px; padding: 30px 20px 160px 20px; box-sizing: border-box; }
         
+        header { margin-bottom: 20px; }
         .search-box { margin: 20px 0; position: relative; }
         .search-box input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 35px; border: 1px solid rgba(0,0,0,0.1); background: var(--card-bg); outline: none; box-shadow: var(--shadow); font-size: 16px; box-sizing: border-box; }
         .search-box::before { content: '🔍'; position: absolute; left: 20px; top: 16px; opacity: 0.6; }
 
-        .section-title { font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 25px 0 12px 5px; letter-spacing: 1px; }
+        .section-title { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 25px 0 10px 5px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
         
         .card { background: var(--card-bg); border-radius: 20px; padding: 18px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); margin-bottom: 15px; }
-        .event-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 14px; }
-        .event-date { font-weight: 600; color: var(--accent-color); min-width: 60px; }
+        .item-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 14px; text-decoration: none; color: inherit; }
+        .item-row:last-child { border-bottom: none; }
+        .label-bold { font-weight: 600; color: var(--accent-color); min-width: 65px; }
         
-        .news-item { display: block; text-decoration: none; color: inherit; margin-bottom: 12px; font-size: 14px; }
-        .news-tag { font-size: 9px; font-weight: 700; color: var(--accent-color); text-transform: uppercase; display: block; margin-bottom: 2px; }
+        .traffic-indicator { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+        .traffic-green { background: #2ecc71; }
+        .traffic-orange { background: #f39c12; }
 
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .small-card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); }
-        .small-card-title { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
-        .small-card-value { font-size: 14px; font-weight: 600; color: var(--accent-color); }
+        .news-tag { font-size: 9px; font-weight: 800; color: var(--accent-color); text-transform: uppercase; display: block; margin-bottom: 3px; }
+        .news-link { display: block; text-decoration: none; color: inherit; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.03); }
+        .news-link:hover { opacity: 0.7; }
 
-        .voice-btn { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.3); border: none; }
+        .voice-btn { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.3); border: none; z-index: 1000; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <header>
-        <h1 id="greeting-text">Witaj, Tomek</h1>
-        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; color: var(--text-muted);">Wszystko pod kontrolą.</p>
+        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; color: var(--text-muted); margin: 0;">Wszystko pod kontrolą.</p>
     </header>
 
     <div class="search-box">
         <form action="https://www.google.com/search" method="GET" target="_blank">
-            <input type="text" id="search-input" name="q" placeholder="Zapytaj Google...">
+            <input type="text" name="q" placeholder="Zapytaj Google...">
         </form>
     </div>
 
-    <div class="status-grid">
-        <div class="small-card">
-            <div class="small-card-title">Pogoda</div>
-            <div class="small-card-value">12°C ☁️</div>
+    <div class="section-title">🚗 Sytuacja na drogach</div>
+    <div class="card">
+        <div class="item-row">
+            <span>Geroldshausen - Moos</span>
+            <span><span class="traffic-indicator traffic-green"></span>Płynnie</span>
         </div>
-        <div class="small-card">
-            <div class="small-card-title">Cel: Marzec</div>
-            <div id="cd-value" class="small-card-value">-- dni ⏳</div>
+        <div class="item-row">
+            <span>Dojazd do Würzburga</span>
+            <span><span class="traffic-indicator traffic-orange"></span>Lekkie spowolnienie</span>
         </div>
     </div>
 
     <div class="section-title">📅 Twój Kalendarz</div>
-    <div class="card" id="calendar-feed">
-        </div>
+    <div class="card">
+        <div class="item-row"><span class="label-bold">27.02</span><span>Bioabfall ♻️</span></div>
+        <div class="item-row"><span class="label-bold">06.03</span><span>Restmüll 🗑️</span></div>
+        <div class="item-row"><span class="label-bold">10.03</span><span>Gelbe Tonne 🟡</span></div>
+    </div>
 
     <div class="section-title">⚽ FC Bayern Munich</div>
-    <div class="card" id="bayern-feed">
-        </div>
+    <div class="card">
+        <a href="https://www.kicker.de/bundesliga/spieltag" target="_blank" class="item-row">
+            <span class="label-bold">28.02</span><span>vs Dortmund (W) 🏟️</span>
+        </a>
+        <a href="https://www.kicker.de/bundesliga/spieltag" target="_blank" class="item-row">
+            <span class="label-bold">06.03</span><span>vs M-Gladbach (D) 🏠</span>
+        </a>
+    </div>
 
     <div class="section-title">📰 Nesky Kurier</div>
-    <div class="card" id="news-feed">
-        </div>
+    <div class="card">
+        <a href="https://www.heise.de/news/Technologie" target="_blank" class="news-link">
+            <span class="news-tag">Technologia</span>
+            <span style="font-weight: 500;">Inżynieria wrzośca: Nowe techniki suszenia.</span>
+        </a>
+        <a href="https://www.auto-motor-und-sport.de/news/" target="_blank" class="news-link">
+            <span class="news-tag">Motoryzacja</span>
+            <span style="font-weight: 500;">Premiera nowych modeli w Monachium.</span>
+        </a>
+        <a href="https://www.sport1.de/fussball/bundesliga" target="_blank" class="news-link">
+            <span class="news-tag">Sport</span>
+            <span style="font-weight: 500;">Analiza przed meczem z Dortmundem.</span>
+        </a>
+    </div>
 </div>
 
 <button class="voice-btn" onclick="startVoiceRecognition()">
@@ -74,52 +97,9 @@
 </button>
 
 <script>
-    const lang = navigator.language.startsWith('de') ? 'de' : 'pl';
-
-    function updateApp() {
-        // Kalendarz - Dane z Twojego konta
-        const events = [
-            { date: "27.02", title: "Bioabfall ♻️", loc: "Geroldshausen" },
-            { date: "06.03", title: "Restmüll 🗑️", loc: "Geroldshausen" },
-            { date: "10.03", title: "Gelbe Tonne 🟡", loc: "Geroldshausen" }
-        ];
-        document.getElementById('calendar-feed').innerHTML = events.map(e => `
-            <div class="event-item">
-                <span class="event-date">${e.date}</span>
-                <span>${e.title}</span>
-            </div>
-        `).join('');
-
-        // Bayern Munich
-        const matches = [
-            { date: "28.02", vs: "Dortmund (W)", type: "Bundesliga" },
-            { date: "06.03", vs: "M-Gladbach (D)", type: "Bundesliga" }
-        ];
-        document.getElementById('bayern-feed').innerHTML = matches.map(m => `
-            <div class="event-item">
-                <span class="event-date">${m.date}</span>
-                <span><b>vs ${m.vs}</b></span>
-            </div>
-        `).join('');
-
-        // Newsy
-        const news = [
-            { tag: "Technologia", title: "Inżynieria wrzośca: Nowe techniki suszenia." },
-            { tag: "Motoryzacja", title: "Premiera nowych modeli w Monachium." }
-        ];
-        document.getElementById('news-feed').innerHTML = news.map(n => `
-            <div class="news-item">
-                <span class="news-tag">${n.tag}</span>
-                ${n.title}
-            </div>
-        `).join('');
-    }
-
-    window.onload = updateApp;
-
     function startVoiceRecognition() {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = navigator.language;
+        recognition.lang = 'pl-PL';
         recognition.start();
         recognition.onresult = (e) => {
             const cmd = e.results[0][0].transcript.toLowerCase();
