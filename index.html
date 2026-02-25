@@ -3,28 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magda v10.0 - Nesky Assistant</title>
+    <title>Magda v11.0 - Nesky Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <style>
         :root { --bg-color: #FDFDFD; --card-bg: #FFFFFF; --accent-color: #8B4513; --text-main: #2D2D2D; --text-muted: #666666; --shadow: 0 4px 15px rgba(0,0,0,0.03); }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; display: flex; justify-content: center; transition: 0.5s; }
         .app-container { width: 100%; max-width: 450px; padding: 20px 20px 160px 20px; box-sizing: border-box; }
+        
         header { margin-bottom: 15px; }
         .search-box { margin: 15px 0; position: relative; }
         .search-box input { width: 100%; padding: 12px 20px 12px 45px; border-radius: 35px; border: 1px solid rgba(0,0,0,0.1); background: var(--card-bg); outline: none; box-shadow: var(--shadow); font-size: 16px; box-sizing: border-box; }
         .search-box::before { content: '🔍'; position: absolute; left: 18px; top: 12px; opacity: 0.6; }
+
         .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .small-card { background: var(--card-bg); border-radius: 18px; padding: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); cursor: pointer; transition: background 0.3s; }
-        .small-card:active { background: #f9f9f9; }
-        .small-card-title { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
-        .small-card-value { font-size: 14px; font-weight: 600; color: var(--accent-color); }
+        .small-card { background: var(--card-bg); border-radius: 18px; padding: 12px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+        .small-card-title { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; position: relative; z-index: 2; }
+        .small-card-value { font-size: 14px; font-weight: 600; color: var(--accent-color); position: relative; z-index: 2; }
+
+        /* Styl dla kafelka z humorem */
+        .humor-img { width: 100%; height: 60px; object-fit: cover; border-radius: 10px; margin-top: 5px; cursor: pointer; transition: transform 0.2s; }
+        .humor-img:active { transform: scale(0.95); }
+
         .section-title { font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin: 20px 0 8px 5px; letter-spacing: 1px; }
         .card { background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(0,0,0,0.05); box-shadow: var(--shadow); margin-bottom: 12px; }
+        
         .item-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.03); font-size: 14px; text-decoration: none; color: inherit; }
         .item-row:last-child { border-bottom: none; }
         .label-bold { font-weight: 600; color: var(--accent-color); min-width: 55px; }
-        .traffic-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
-        .news-tag { font-size: 8px; font-weight: 800; color: var(--accent-color); text-transform: uppercase; display: block; }
+
         .voice-btn { position: fixed; bottom: 30px; right: 25px; width: 65px; height: 65px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 25px rgba(0,0,0,0.3); border: none; z-index: 1000; }
     </style>
 </head>
@@ -32,31 +38,31 @@
 
 <div class="app-container">
     <header>
-        <h1 id="greeting-text" style="font-size: 24px;">Witaj, Tomku</h1>
-        <p id="sub-greeting" style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--text-muted); margin: 0;">Wszystko pod kontrolą.</p>
+        <h1 style="font-size: 24px;">Witaj, Tomku</h1>
+        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--text-muted); margin: 0;">Faza koncepcyjna zakończona. Humoru nigdy dość.</p>
     </header>
 
     <div class="search-box">
         <form action="https://www.google.com/search" method="GET" target="_blank">
-            <input type="text" id="search-input" name="q" placeholder="Zapytaj Google...">
+            <input type="text" name="q" placeholder="Zapytaj Google...">
         </form>
     </div>
 
     <div class="status-grid">
         <div class="small-card">
-            <div class="small-card-title" id="lbl-weather">Pogoda</div>
+            <div class="small-card-title">Pogoda (Erlenbach)</div>
             <div class="small-card-value">11°C ⛅</div>
         </div>
-        <div class="small-card" id="step-card" onclick="initPedometer()">
-            <div class="small-card-title" id="lbl-steps">Kroki (kliknij!)</div>
-            <div id="step-count" class="small-card-value">0 🚶</div>
+        <div class="small-card" onclick="refreshHumor()">
+            <div class="small-card-title">Chwila Humoru</div>
+            <img id="humor-pic" class="humor-img" src="https://loremflickr.com/320/240/funny,cat" alt="Zabawny obrazek">
         </div>
     </div>
 
     <div class="section-title">🚗 Drogi</div>
     <div class="card">
-        <div class="item-row"><span>Geroldshausen - Moos</span><span><span class="traffic-dot" style="background:#2ecc71"></span>Płynnie</span></div>
-        <div class="item-row"><span>Dojazd do Würzburga</span><span><span class="traffic-dot" style="background:#f39c12"></span>Spowolnienie</span></div>
+        <div class="item-row"><span>Geroldshausen - Moos</span><span>✅ Płynnie</span></div>
+        <div class="item-row"><span>Dojazd do Würzburga</span><span>⚠️ Spowolnienie</span></div>
     </div>
 
     <div class="section-title">📅 Kalendarz</div>
@@ -72,11 +78,10 @@
         </a>
     </div>
 
-    <div class="section-title">📰 Kurier</div>
+    <div class="section-title">📰 Nesky Kurier</div>
     <div class="card">
         <a href="https://www.heise.de" target="_blank" style="text-decoration:none; color:inherit;">
-            <span class="news-tag">Technologia</span>
-            <p style="font-size:13px; margin:5px 0;">Inżynieria wrzośca: Nowe techniki suszenia.</p>
+            <p style="font-size:13px; margin:0;">Inżynieria wrzośca: Nowe techniki suszenia w 2026 r.</p>
         </a>
     </div>
 </div>
@@ -86,56 +91,10 @@
 </button>
 
 <script>
-    let steps = 0;
-    let isTracking = false;
-
-    // Funkcja inicjująca po kliknięciu
-    async function initPedometer() {
-        if (isTracking) return;
-
-        if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-            // Obsługa iOS
-            try {
-                const permission = await DeviceMotionEvent.requestPermission();
-                if (permission === 'granted') {
-                    startMotionListener();
-                } else {
-                    alert("Brak uprawnień do czujników.");
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        } else {
-            // Obsługa Android / Inne
-            startMotionListener();
-        }
-    }
-
-    function startMotionListener() {
-        window.addEventListener('devicemotion', (e) => {
-            const acc = e.accelerationIncludingGravity;
-            if (!acc) return;
-
-            const totalAcc = Math.sqrt(acc.x**2 + acc.y**2 + acc.z**2);
-            
-            // Czułość ustawiona na 12 (lekki ruch)
-            if (totalAcc > 12) {
-                steps++;
-                // Aktualizacja co ok. 2 wahnięcia telefonu
-                document.getElementById('step-count').innerText = Math.floor(steps/2) + " 🚶";
-                
-                if (!isTracking) {
-                    isTracking = true;
-                    document.getElementById('lbl-steps').innerText = "Kroki (Active)";
-                    document.getElementById('step-card').style.borderColor = "#8B4513";
-                }
-            }
-        });
-        
-        // Informacja zwrotna dla użytkownika
-        setTimeout(() => {
-            if (!isTracking) alert("Kliknij i potrząśnij telefonem, aby sprawdzić połączenie.");
-        }, 500);
+    function refreshHumor() {
+        const img = document.getElementById('humor-pic');
+        // Dodajemy timestamp, aby przeglądarka nie ładowała z cache'u tego samego obrazka
+        img.src = "https://loremflickr.com/320/240/funny,dog,cat?v=" + new Date().getTime();
     }
 
     function startVoiceRecognition() {
@@ -149,4 +108,3 @@
 </script>
 </body>
 </html>
- 
